@@ -1,0 +1,63 @@
+# Cloudflare Worker 配置文件
+# 更多配置选项: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+# Worker 名称(修改为你想要的名称)
+name = "cloudflare-search"
+
+# Worker 主文件
+main = "worker.js"
+
+# 兼容日期 - 锁定 Workers 运行时行为
+# 使用你开发时的日期,避免未来行为变更影响你的代码
+compatibility_date = "2024-12-04"
+
+# 自动使用 workers.dev 子域名
+# 设置为 true 会自动分配一个 xxx.workers.dev 域名
+workers_dev = true
+
+# 账号 ID (可选,部署时会自动填充)
+# account_id = "your-account-id"
+
+# ============================================
+# 路由配置(可选)
+# ============================================
+# 如果你想将 Worker 绑定到自定义域名,取消注释并配置:
+# routes = [
+#   { pattern = "search.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# ============================================
+# 环境变量(可选)
+# ============================================
+[vars]
+GOOGLE_API_KEY = ""
+GOOGLE_CX = ""
+
+# ============================================
+# 环境配置(可选)
+# ============================================
+# 生产环境配置
+# [env.production]
+# name = "cloudflare-search-prod"
+# workers_dev = false
+# routes = [
+#   { pattern = "search.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# 开发环境配置
+# [env.staging]
+# name = "cloudflare-search-staging"
+# workers_dev = true
+
+# ============================================
+# 资源限制(可选)
+# ============================================
+# 限制 CPU 时间(毫秒)
+# limits = { cpu_ms = 50 }
+
+# ============================================
+# 观察性配置(可选)
+# ============================================
+# 启用日志推送
+# [observability]
+# enabled = true
