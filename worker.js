@@ -25,7 +25,8 @@ function parseEngines(enginesParam) {
     .map((e) => e.trim().toLowerCase())
     .filter((e) => {
       // Filter out google if not enabled
-      if (e === "google" && !(env.GOOGLE_API_KEY && env.GOOGLE_CX)) return false;
+      if (e === "google" && !(env.GOOGLE_API_KEY && env.GOOGLE_CX))
+        return false;
       return env.SUPPORTED_ENGINES.includes(e);
     });
 }
@@ -56,7 +57,7 @@ async function searchSingle(engineName, query) {
     clearTimeout(timeoutId);
     return result;
   } catch (error) {
-    if (error.name === 'AbortError') {
+    if (error.name === "AbortError") {
       console.error(`[${engineName}] Timeout after ${timeout}ms`);
     } else {
       console.error(`[${engineName}] Error:`, error.message);
@@ -123,6 +124,22 @@ const CORS_HEADERS = {
 };
 
 /**
+ * Verify authentication token
+ */
+function verifyToken(request, paramToken) {
+  // If TOKEN is not configured, skip authentication
+  if (!env.TOKEN) {
+    return true;
+  }
+
+  const token =
+    request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "") ||
+    paramToken;
+
+  return token === env.TOKEN;
+}
+
+/**
  * Main request handler
  */
 async function handleRequest(request) {
@@ -141,6 +158,32 @@ async function handleRequest(request) {
     });
   }
 
+  // Parse query parameters
+  let params = {};
+  if (request.method === "POST") {
+    const formData = await request.formData();
+    params = Object.fromEntries(formData.entries());
+  } else {
+    params = Object.fromEntries(url.searchParams.entries());
+  }
+
+  // Verify authentication token
+  if (!verifyToken(request, params.token)) {
+    return new Response(
+      JSON.stringify({
+        error: "Unauthorized",
+        message: "Invalid or missing authentication token",
+      }),
+      {
+        status: 401,
+        headers: {
+          "Content-Type": "application/json",
+          ...CORS_HEADERS,
+        },
+      }
+    );
+  }
+
   // Root path: return HTML UI
   if (url.pathname === "/") {
     return new Response(getSearchHtml(), {
@@ -153,15 +196,6 @@ async function handleRequest(request) {
 
   // /search path: handle API requests
   if (url.pathname === "/search") {
-    // Parse query parameters
-    let params = {};
-    if (request.method === "POST") {
-      const formData = await request.formData();
-      params = Object.fromEntries(formData.entries());
-    } else {
-      params = Object.fromEntries(url.searchParams.entries());
-    }
-
     const query = params.q || params.query;
 
     if (!query) {

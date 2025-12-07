@@ -10,6 +10,7 @@
 - ⚡ **并行搜索** - 所有搜索引擎同时请求，快速返回结果
 - 🛡️ **容错机制** - 单个引擎失败不影响其他引擎，自动标记无响应引擎
 - ⏱️ **超时控制** - 可配置请求超时时间，避免长时间等待
+- 🔒 **Token 鉴权** - 支持 Token 认证，保护服务不被滥用
 - 🌍 **CORS 支持** - 完整的跨域资源共享支持
 - 🎨 **Web 界面** - 提供简洁的搜索界面，方便测试
 - ⚡ **零成本运行** - Cloudflare Workers 免费版每天 10 万次请求
@@ -81,6 +82,9 @@ curl "https://$YOUR-DOMAIN/search?q=cloudflare"
 
 # 指定搜索引擎
 curl "https://$YOUR-DOMAIN/search?q=cloudflare&engines=google,brave"
+
+# 使用 token 鉴权（如果配置了 TOKEN 环境变量）
+curl "https://$YOUR-DOMAIN/search?q=cloudflare&token=$YOUR-TOKEN"
 ```
 
 ### 方式 3: API 请求（POST）
@@ -91,6 +95,7 @@ curl "https://$YOUR-DOMAIN/search?q=cloudflare&engines=google,brave"
 curl -X POST "https://$YOUR-DOMAIN/search" \
   -d "q=cloudflare" \
   -d "engines=google,brave"
+  -d "token=$YOUR-TOKEN" # 如果配置了 TOKEN 环境变量
 ```
 
 ## API 接口说明
@@ -101,10 +106,11 @@ curl -X POST "https://$YOUR-DOMAIN/search" \
 
 #### 请求参数
 
-| 参数          | 类型     | 必填 | 说明                         | 示例           |
-| ------------- | -------- | ---- | ---------------------------- | -------------- |
-| `q` / `query` | `string` | yes  | 搜索关键词                   | `cloudflare`   |
-| `engines`     | `string` | no   | 指定搜索引擎，多个用逗号分隔 | `google,brave` |
+| 参数          | 类型     | 必填   | 说明                                      | 示例           |
+| ------------- | -------- | ------ | ----------------------------------------- | -------------- |
+| `q` / `query` | `string` | yes    | 搜索关键词                                | `cloudflare`   |
+| `engines`     | `string` | no     | 指定搜索引擎，多个用逗号分隔              | `google,brave` |
+| `token`       | `string` | no/yse | 访问令牌（当配置了 TOKEN 环境变量时必填） | `$YOUR-TOKEN`  |
 
 **支持的搜索引擎**：
 
@@ -185,12 +191,6 @@ curl -X POST "https://$YOUR-DOMAIN/search" \
 3. **结果聚合**：将所有成功返回的结果合并，标记来源引擎
 4. **容错处理**：记录无响应的引擎，返回部分结果而不是完全失败
 
-### 搜索引擎选择建议
-
-- **无需配置快速部署**：使用 `brave` + `duckduckgo`
-- **高质量结果**：配置 Google API 并使用 `google` + `brave`
-- **最大覆盖**：启用所有引擎 `google,brave,duckduckgo,bing`
-
 ## 环境变量配置
 
 ### 环境变量说明
@@ -200,8 +200,12 @@ curl -X POST "https://$YOUR-DOMAIN/search" \
 | `DEFAULT_TIMEOUT` | `string` | `"3000"` | 单个搜索引擎的超时时间（毫秒）                    |
 | `GOOGLE_API_KEY`  | `string` | `null`   | https://console.cloud.google.com/apis/credentials |
 | `GOOGLE_CX`       | `string` | `null`   | https://programmablesearchengine.google.com/      |
+| `TOKEN`           | `string` | `null`   | 访问令牌，配置后启用鉴权，保护服务不被滥用        |
 
-**注意**：Google Custom Search API 免费版每天限制 100 次请求。
+**注意**：
+
+- Google Custom Search API 免费版每天限制 100 次请求
+- `TOKEN` 配置后，所有请求都需要提供有效的 token
 
 ### 配置方式
 
@@ -213,7 +217,8 @@ curl -X POST "https://$YOUR-DOMAIN/search" \
 [vars]
 GOOGLE_API_KEY = "your-google-api-key"
 GOOGLE_CX = "your-google-custom-search-cx"
-DEFAULT_TIMEOUT = "5000"
+DEFAULT_TIMEOUT = "3000"
+TOKEN = "your-secret-token-here"
 ```
 
 #### 方式 2: Cloudflare Dashboard
@@ -290,6 +295,29 @@ const byEngine = data.results.reduce((acc, result) => {
    - 可通过环境变量 `DEFAULT_TIMEOUT` 调整
    - 建议不要设置过长，避免整体响应时间过长
 
+### 🔒 安全配置
+
+#### 启用鉴权
+
+1. 配置 `TOKEN` 环境变量 来保护你的服务不被滥用：
+
+- 利用 wrangler.toml 配置 TOKEN 环境变量
+- 通过 Cloudflare Worker Dashboard 配置 TOKEN 环境变量
+
+2. 在请求时传入 token：
+
+```bash
+# 访问首页
+https://$YOUR-DOMAIN?token=$YOUR-TOKEN
+
+# 使用 query/body 的 token 参数 请求 API
+curl "https://$YOUR-DOMAIN/search?q=cloudflare&token=$YOUR-TOKEN"
+
+curl -X POST "https://$YOUR-DOMAIN/search" \
+  -d "q=cloudflare" \
+  -d "token=$YOUR-TOKEN"
+```
+
 ## 常见问题
 
 ### Q: 为什么有些搜索引擎返回结果为空？
@@ -312,7 +340,17 @@ A: 建议：
 
 ### Q: Bing 搜索为什么默认禁用？
 
-A: Bing 搜索结果目前不够稳定，经常返回空结果或格式不一致。如需使用，可以在请求时手动指定：`engines=bing` 或修改 `envs.js` 中的 `DEFAULT_ENGINES`。
+A: Bing 搜索结果目前不够稳定，出现内容与搜索关联度低的情况。如需使用，可以在请求时手动指定：`engines=bing` 或修改 `envs.js` 中的 `DEFAULT_ENGINES`。
+
+### Q: 如何保护服务不被滥用？
+
+A: 建议配置 `TOKEN` 环境变量启用鉴权：
+
+1. 在 `wrangler.toml` 中设置 `TOKEN = "your-random-token"`
+2. 或在 Cloudflare Dashboard 的 Environment Variables 中添加
+3. 配置后所有请求都需要提供有效的 token
+
+鉴权失败会返回 401 错误
 
 ## 免责声明
 

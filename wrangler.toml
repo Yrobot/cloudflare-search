@@ -30,8 +30,14 @@ workers_dev = true
 # 环境变量(可选)
 # ============================================
 [vars]
+# Google Custom Search API 配置
 GOOGLE_API_KEY = ""
 GOOGLE_CX = ""
+
+# API 访问令牌(可选)
+# 配置后，所有 /search 请求都需要提供此 token 进行鉴权
+# 可以通过 Authorization header (Bearer token) 或 query 参数 (?token=xxx) 传递
+TOKEN = ""
 
 # ============================================
 # 环境配置(可选)
