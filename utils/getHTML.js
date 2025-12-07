@@ -148,7 +148,9 @@ export function getSearchHtml() {
                       ? `
                   <div class="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800/40">
                     <p class="text-xs text-amber-700 dark:text-amber-400">
-                      💡 提示:配置 Google API 后可使用 Google 搜索引擎。在 Cloudflare Dashboard 的 Worker 设置中添加环境变量 <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900/30 rounded">GOOGLE_API_KEY</code> 和 <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900/30 rounded">GOOGLE_CX</code>。
+                      💡 提示: 配置 Google API 后可使用 Google 搜索引擎。在 Cloudflare Dashboard 的 Worker 设置中添加环境变量:<br/>
+                      • <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900/30 rounded">GOOGLE_API_KEY</code> - <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="underline hover:text-amber-900 dark:hover:text-amber-100">获取 API Key</a><br/>
+                      • <code class="px-1 py-0.5 bg-amber-100 dark:bg-amber-900/30 rounded">GOOGLE_CX</code> - <a href="https://programmablesearchengine.google.com/" target="_blank" class="underline hover:text-amber-900 dark:hover:text-amber-100">获取 CX ID</a>
                     </p>
                   </div>
                   `
@@ -417,7 +419,7 @@ export function getSearchHtml() {
                         <ul class="text-xs text-blue-700 dark:text-blue-300 mt-1 ml-4 list-disc">
                           ${
                             !GOOGLE_ENABLED
-                              ? '<li><code class="px-1 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded">GOOGLE_API_KEY</code> 和 <code class="px-1 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded">GOOGLE_CX</code> - 启用 Google 搜索</li>'
+                              ? '<li><code class="px-1 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded">GOOGLE_API_KEY</code> 和 <code class="px-1 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded">GOOGLE_CX</code> - 启用 Google 搜索 (<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="underline hover:text-blue-900 dark:hover:text-blue-100">获取 API Key</a> / <a href="https://programmablesearchengine.google.com/" target="_blank" class="underline hover:text-blue-900 dark:hover:text-blue-100">获取 CX</a>)</li>'
                               : ""
                           }
                           ${
