@@ -445,6 +445,87 @@ export function getSearchHtml() {
                   </div>
                 </div>
 
+                <!-- MCP 集成 -->
+                <div class="mt-8 rounded-2xl border border-purple-200 bg-purple-50 dark:border-purple-800/40 dark:bg-purple-900/10 p-6">
+                  <h2 class="text-lg font-semibold text-purple-900 dark:text-purple-100 mb-4">
+                    🤖 MCP 集成
+                  </h2>
+                  <p class="text-sm text-purple-800 dark:text-purple-200 mb-4">
+                    通过 MCP (Model Context Protocol) 让 AI 助手 (如 Claude) 直接调用你的搜索服务,获取实时搜索结果。
+                  </p>
+
+                  <div class="space-y-4">
+                    <!-- 步骤 1 -->
+                    <div class="rounded-lg bg-white dark:bg-purple-900/20 p-4 border border-purple-200 dark:border-purple-800/40">
+                      <div class="flex items-start">
+                        <span class="flex-shrink-0 w-6 h-6 bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100 rounded-full flex items-center justify-center text-xs font-semibold mr-3">1</span>
+                        <div class="flex-1">
+                          <p class="text-sm font-medium text-purple-900 dark:text-purple-100 mb-2">添加 MCP 服务器配置</p>
+                          <p class="text-xs text-purple-700 dark:text-purple-300 mb-3">
+                            编辑配置文件 (<a href="https://modelcontextprotocol.io/quickstart/user" target="_blank" class="underline hover:text-purple-900 dark:hover:text-purple-100">配置指南</a>):
+                          </p>
+                          <div class="space-y-1 text-xs text-purple-700 dark:text-purple-300 mb-3">
+                            <p><strong>Claude Code:</strong> <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">~/.claude/config.json</code> 或 <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">~/.claude.json</code></p>
+                            <p><strong>Claude Desktop (macOS):</strong> <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">~/Library/Application Support/Claude/claude_desktop_config.json</code></p>
+                            <p><strong>Claude Desktop (Windows):</strong> <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">%APPDATA%\\Claude\\claude_desktop_config.json</code></p>
+                          </div>
+                          <div class="rounded bg-purple-100 dark:bg-purple-900/30 p-3">
+                            <pre class="text-xs overflow-x-auto text-purple-900 dark:text-purple-100"><code id='mcp-config-json'></code></pre>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 步骤 2 -->
+                    <div class="rounded-lg bg-white dark:bg-purple-900/20 p-4 border border-purple-200 dark:border-purple-800/40">
+                      <div class="flex items-start">
+                        <span class="flex-shrink-0 w-6 h-6 bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100 rounded-full flex items-center justify-center text-xs font-semibold mr-3">2</span>
+                        <div class="flex-1">
+                          <p class="text-sm font-medium text-purple-900 dark:text-purple-100 mb-2">重启应用</p>
+                          <p class="text-xs text-purple-700 dark:text-purple-300">
+                            保存配置后重启 Claude Code 或 Claude Desktop。
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 步骤 3 -->
+                    <div class="rounded-lg bg-white dark:bg-purple-900/20 p-4 border border-purple-200 dark:border-purple-800/40">
+                      <div class="flex items-start">
+                        <span class="flex-shrink-0 w-6 h-6 bg-purple-200 dark:bg-purple-800 text-purple-900 dark:text-purple-100 rounded-full flex items-center justify-center text-xs font-semibold mr-3">3</span>
+                        <div class="flex-1">
+                          <p class="text-sm font-medium text-purple-900 dark:text-purple-100 mb-2">验证安装</p>
+                          <div class="text-xs text-purple-700 dark:text-purple-300 space-y-1">
+                            <p>• 在 Claude Code 中运行 <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">/mcp</code> 命令,应该能看到 <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">cloudflare-search</code> 工具</p>
+                            <p>• 或 使用 <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">claude mcp list</code>, 看到 <code class="px-1 py-0.5 bg-purple-100 dark:bg-purple-900/30 rounded">cloudflare-search: ... - ✓ Connected</code> 说明配置成功</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 使用示例 -->
+                    <div class="rounded-lg bg-white dark:bg-purple-900/20 p-4 border border-purple-200 dark:border-purple-800/40">
+                      <p class="text-sm font-medium text-purple-900 dark:text-purple-100 mb-2">💬 使用示例</p>
+                      <div class="space-y-2 text-xs text-purple-700 dark:text-purple-300">
+                        <div class="rounded bg-purple-100 dark:bg-purple-900/30 p-2">
+                          <code>用 cloudflare-search 搜索 "Cloudflare Workers 最佳实践"</code>
+                        </div>
+                        <div class="rounded bg-purple-100 dark:bg-purple-900/30 p-2">
+                          <code>用 cloudflare-search 搜索 "Next.js 14 新特性"</code>
+                        </div>
+                        <p class="pt-2">AI 会返回来自多个搜索引擎的聚合结果,包括标题、描述和链接。</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 pt-4 border-t border-purple-200 dark:border-purple-800/40">
+                    <p class="text-xs text-purple-700 dark:text-purple-300">
+                      📦 NPM 包: <a href="https://www.npmjs.com/package/@yrobot/cf-search-mcp" target="_blank" class="underline hover:text-purple-900 dark:hover:text-purple-100">@yrobot/cf-search-mcp</a> |
+                      📚 MCP 文档: <a href="https://modelcontextprotocol.io" target="_blank" class="underline hover:text-purple-900 dark:hover:text-purple-100">modelcontextprotocol.io</a>
+                    </p>
+                  </div>
+                </div>
+
                 <!-- 功能特性 -->
                 <div class="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
                   <div class="flex items-center text-sm text-zinc-600 dark:text-zinc-400">
@@ -525,6 +606,18 @@ export function getSearchHtml() {
 
     document.getElementById('apiExample1').textContent = currentOrigin + '/search?q=cloudflare' + tokenParam;
     document.getElementById('apiExample2').textContent = 'curl -X POST "' + currentOrigin + '/search" -d "q=cloudflare&engines=google,brave' + tokenBodyParam + '"';
+    document.getElementById('mcp-config-json').innerHTML = \`{
+  "mcpServers": {
+    "cloudflare-search": {
+      "command": "npx",
+      "args": ["-y", "@yrobot/cf-search-mcp"],
+      "env": {
+        "CF_SEARCH_URL": "\${currentOrigin}",
+        "CF_SEARCH_TOKEN": "\${TOKEN_ENABLED ? TOKEN_ENABLED : ""}"
+      }
+    }
+  }
+}\`
 
     // 搜索表单提交
     document.getElementById('searchForm').addEventListener('submit', async function(event) {

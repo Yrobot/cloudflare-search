@@ -274,6 +274,61 @@ const byEngine = data.results.reduce((acc, result) => {
 }, {});
 ```
 
+## MCP 集成
+
+通过 MCP (Model Context Protocol) 让 AI 助手直接调用你的搜索服务，获取实时搜索结果。
+
+### 安装配置
+
+#### 1. 添加 MCP 服务器配置
+
+编辑配置文件（[配置指南](https://modelcontextprotocol.io/quickstart/user)）：
+
+**Claude Code**: `~/.claude/config.json` / `~/.claude.json`
+**Claude Desktop macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Claude Desktop Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "cloudflare-search": {
+      "command": "npx",
+      "args": ["-y", "@yrobot/cf-search-mcp"],
+      "env": {
+        "CF_SEARCH_URL": "https://your-worker.workers.dev",
+        "CF_SEARCH_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+**环境变量说明**：
+
+- `CF_SEARCH_URL`: Worker 部署地址（必填）
+- `CF_SEARCH_TOKEN`: 鉴权 Token（如果 Worker 配置了 TOKEN 则必填）
+
+#### 2. 重启应用
+
+保存配置后重启 Claude Code 或 Claude Desktop。
+
+#### 3. 验证安装
+
+- 在 Claude Code 中运行 `/mcp` 命令，应该能看到 `cloudflare-search` 工具。
+- 或 使用 `claude mcp list`, 看到 `cloudflare-search: npx -y @yrobot/cf-search-mcp@latest - ✓ Connected` 说明配置成功
+
+### 使用示例
+
+```
+用 cloudflare-search 搜索 "Cloudflare Workers 最佳实践"
+```
+
+```
+用 cloudflare-search 搜索 "Next.js 14 新特性"
+```
+
+AI 会返回来自多个搜索引擎的聚合结果，包括标题、描述和链接。
+
 ## 注意与提醒
 
 ### 🚨 重要提示

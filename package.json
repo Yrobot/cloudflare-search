@@ -1,0 +1,38 @@
+{
+  "name": "@yrobot/cf-search-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Cloudflare Search API - Aggregated search across multiple engines",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "mcp/cf-search-mcp.js",
+  "bin": {
+    "cf-search-mcp": "./mcp/cf-search-mcp.js"
+  },
+  "scripts": {
+    "start": "node mcp/cf-search-mcp.js"
+  },
+  "keywords": [
+    "mcp",
+    "search",
+    "cloudflare",
+    "api",
+    "google",
+    "brave",
+    "duckduckgo",
+    "bing"
+  ],
+  "author": "Yrobot",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yrobot/cloudflare-search.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
