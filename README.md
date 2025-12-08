@@ -435,4 +435,4 @@ A: 建议配置 `TOKEN` 环境变量启用鉴权：
 
 如果这个项目对你有帮助，可以请作者喝杯咖啡 ☕
 
-<image src="https://yrobot.top/donate_wx.jpeg" style="max-width: 300px; margin: 0 auto;"/>
+<image src="https://yrobot.top/donate_wx.jpeg" width="300"/>
