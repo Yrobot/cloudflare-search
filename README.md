@@ -284,9 +284,9 @@ const byEngine = data.results.reduce((acc, result) => {
 
 编辑配置文件（[配置指南](https://modelcontextprotocol.io/quickstart/user)）：
 
-**Claude Code**: `~/.claude/config.json` / `~/.claude.json`
-**Claude Desktop macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Claude Desktop Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Claude Code**: `~/.claude/config.json` / `~/.claude.json`
+- **Claude Desktop macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Claude Desktop Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
