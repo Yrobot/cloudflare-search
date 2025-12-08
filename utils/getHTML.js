@@ -97,7 +97,15 @@ export function getSearchHtml() {
                       基于 Cloudflare Workers 的多引擎聚合搜索服务。并行搜索 Google、DuckDuckGo、Bing、Brave 四大引擎,快速获取更全面的搜索结果。
                     </p>
                     <p class="mt-2">
-                      如果这个项目对你有帮助，请在 <a href="https://github.com/Yrobot/cloudflare-search" target="_blank" class="hover:underline font-medium">GitHub 上给我们一个 ⭐️</a>
+                      如果这个项目对你有帮助，可以 
+                      <a
+                        href="https://yrobot.top/donate_wx.jpeg"
+                        target="_blank"
+                        title="如果这个项目对你有帮助，可以请我喝杯咖啡 ☕"
+                        class="hover:underline"
+                      >
+                        请作者喝杯咖啡 ☕️
+                      </a>
                     </p>
                   </div>
                 </div>

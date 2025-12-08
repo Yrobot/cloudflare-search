@@ -431,6 +431,8 @@ A: 建议配置 `TOKEN` 环境变量启用鉴权：
 - [Cloudflare Workers 文档](https://developers.cloudflare.com/workers/)
 - [Google Custom Search API](https://developers.google.com/custom-search/v1/overview)
 
----
+## 支持一下
 
-**如果这个项目对你有帮助，请在 [GitHub](https://github.com/Yrobot/cloudflare-search) 上给我们一个 ⭐️**
+如果这个项目对你有帮助，可以请作者喝杯咖啡 ☕
+
+<image src="https://yrobot.top/donate_wx.jpeg" style="max-width: 300px; margin: 0 auto;"/>
