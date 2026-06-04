@@ -7,8 +7,8 @@ export const env = {
 
   // 默认启用的搜索引擎 - Default enabled engines
   DEFAULT_ENGINES: [
-    //"google",
-    "brave",
+    // "google",
+    // "brave",
     "duckduckgo",
     // "bing" // Bing 目前结果不稳定，默认禁用 - Bing results are currently unstable, disabled by default
   ],
