@@ -133,6 +133,7 @@ async function searchDuckDuckGo({ query, language, time_range, pageno, signal })
 
     if (results.length === 0) {
       console.log(`[DuckDuckGo] No results found for query: ${query}`);
+      console.error(`[DuckDuckGo] no result from html: ${html}`);
       return [];
     }
 
