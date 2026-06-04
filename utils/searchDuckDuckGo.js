@@ -127,13 +127,14 @@ async function searchDuckDuckGo({ query, language, time_range, pageno, signal })
     }
 
     const html = await response.text();
+    
+    console.error(`[DuckDuckGo] html: ${html}`);
 
     // 从 HTML 中提取结果
     const results = extractResultsFromHTML(html);
 
     if (results.length === 0) {
       console.log(`[DuckDuckGo] No results found for query: ${query}`);
-      console.error(`[DuckDuckGo] no result from html: ${html}`);
       return [];
     }
 
