@@ -109,7 +109,7 @@ async function searchDuckDuckGo({ query, language, time_range, pageno, signal })
     const response = await fetch(
       searchUrl,
       {
-        signal,
+        // signal,
         headers: {
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -128,8 +128,6 @@ async function searchDuckDuckGo({ query, language, time_range, pageno, signal })
 
     const html = await response.text();
     
-    console.error(`[DuckDuckGo] html: ${html}`);
-
     // 从 HTML 中提取结果
     const results = extractResultsFromHTML(html);
 
