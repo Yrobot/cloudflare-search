@@ -65,5 +65,8 @@ workers_dev = true
 # 观察性配置(可选)
 # ============================================
 # 启用日志推送
-# [observability]
-# enabled = true
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
