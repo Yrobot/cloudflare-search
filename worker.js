@@ -97,7 +97,7 @@ async function searchAll({ query, engines }) {
         }))
       );
     } else {
-      unresponsive.push(engineName);
+      unresponsive.push({ engineName, status: result.status, reason: result.reason });
       if (result.status === "rejected") {
         console.error(`[${engineName}] Rejected:`, result.reason);
       }
