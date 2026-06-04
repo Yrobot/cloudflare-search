@@ -47,7 +47,14 @@ async function searchBrave({ query, language, time_range, pageno, signal }) {
         "data: ".length,
         pureLine.endsWith(",") ? -1 : undefined
       );
-      data = eval("(" + jsonStr + ")");
+      // ✅ 用 JSON.parse 替代 eval，先将 JS 对象字面量的无引号 key 转为合法 JSON
+      try {
+        data = JSON.parse(
+          jsonStr.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\s*:)/g, '$1"$2"$3')
+        );
+      } catch (e) {
+        console.error("Failed to parse data line:", e);
+      }
     }
   });
 
